@@ -1,13 +1,9 @@
 package microservice.abastecimiento.model;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -16,8 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +26,9 @@ public class RecepcionMercancia {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idRecepcion;
+
+	@Column(name = "id_orden_compra", insertable = false, updatable = false)
+	private Long idOrdenCompra;
 
 	@NotNull(message = "El id de usuario es obligatorio")
 	private Long idUsuario;
@@ -49,8 +46,23 @@ public class RecepcionMercancia {
 	@JoinColumn(name = "id_orden_compra", nullable = false)
 	private OrdenCompra ordenCompra;
 
-	@Valid
-	@JsonManagedReference
-	@OneToMany(mappedBy = "recepcion", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<DetalleRecepcionMercancia> detalles = new ArrayList<>();
+	public void registrarRecepcion() {
+		if (fechaRecepcion == null) {
+			fechaRecepcion = LocalDateTime.now();
+		}
+		estado = "REGISTRADA";
+	}
+
+	public void validarMercancia() {
+		estado = "VALIDADA";
+	}
+
+	public void confirmarRecepcion() {
+		estado = "CONFIRMADA";
+	}
+
+	public void setOrdenCompra(OrdenCompra ordenCompra) {
+		this.ordenCompra = ordenCompra;
+		this.idOrdenCompra = ordenCompra != null ? ordenCompra.getIdOrdenCompra() : null;
+	}
 }
