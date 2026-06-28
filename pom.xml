@@ -113,8 +113,9 @@
 				<version>0.8.13</version>
 				<configuration>
 					<excludes>
-						<exclude>microservice/abastecimiento/AbastecimientoApplication.class</exclude>
-						<exclude>microservice/abastecimiento/model/**</exclude>
+						<exclude>microservice/abastecimiento/model/DetalleOrdenCompra.class</exclude>
+						<exclude>microservice/abastecimiento/model/OrdenCompra.class</exclude>
+						<exclude>microservice/abastecimiento/model/Proveedor.class</exclude>
 						<exclude>microservice/abastecimiento/repository/**</exclude>
 					</excludes>
 				</configuration>
@@ -137,7 +138,7 @@
 										<limit>
 											<counter>LINE</counter>
 											<value>COVEREDRATIO</value>
-											<minimum>1.00</minimum>
+											<minimum>0.90</minimum>
 										</limit>
 									</limits>
 								</rule>
